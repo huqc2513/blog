@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>浅析 commonjs 中的模块化 | blog</title>
+    <meta name="description" content="个人博客">
+    
+    
+    <link rel="preload" href="/blog/assets/css/0.styles.c6453b87.css" as="style"><link rel="preload" href="/blog/assets/js/app.c212e84a.js" as="script"><link rel="preload" href="/blog/assets/js/16.0e225785.js" as="script"><link rel="prefetch" href="/blog/assets/js/10.c9c4fac2.js"><link rel="prefetch" href="/blog/assets/js/11.e56827ec.js"><link rel="prefetch" href="/blog/assets/js/12.ddb56edd.js"><link rel="prefetch" href="/blog/assets/js/13.c6c01d77.js"><link rel="prefetch" href="/blog/assets/js/14.7cd35f8a.js"><link rel="prefetch" href="/blog/assets/js/15.d43947a8.js"><link rel="prefetch" href="/blog/assets/js/17.ded17430.js"><link rel="prefetch" href="/blog/assets/js/18.9d940a56.js"><link rel="prefetch" href="/blog/assets/js/19.3a5b408f.js"><link rel="prefetch" href="/blog/assets/js/2.42338395.js"><link rel="prefetch" href="/blog/assets/js/20.a86db336.js"><link rel="prefetch" href="/blog/assets/js/21.c777fc3d.js"><link rel="prefetch" href="/blog/assets/js/22.057ecfc1.js"><link rel="prefetch" href="/blog/assets/js/23.daaee609.js"><link rel="prefetch" href="/blog/assets/js/24.de9ada9f.js"><link rel="prefetch" href="/blog/assets/js/25.27d51be8.js"><link rel="prefetch" href="/blog/assets/js/26.2be95316.js"><link rel="prefetch" href="/blog/assets/js/27.f1dab077.js"><link rel="prefetch" href="/blog/assets/js/3.8de894da.js"><link rel="prefetch" href="/blog/assets/js/4.b104ef77.js"><link rel="prefetch" href="/blog/assets/js/5.bca4431b.js"><link rel="prefetch" href="/blog/assets/js/6.9db51e84.js"><link rel="prefetch" href="/blog/assets/js/7.6238cd33.js"><link rel="prefetch" href="/blog/assets/js/8.cc3e1d30.js"><link rel="prefetch" href="/blog/assets/js/9.7f71cb79.js">
+    <link rel="stylesheet" href="/blog/assets/css/0.styles.c6453b87.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/blog/" class="home-link router-link-active"><!----> <span class="site-name">blog</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/blog/vue/emitter/vue组件之间的多种通信方式.html" class="nav-link">vue</a></div><div class="nav-item"><a href="/blog/react/手写一个react路由.html" class="nav-link">react</a></div> <a href="https://github.com/huqc2513" target="_blank" rel="noopener noreferrer" class="repo-link">
+    github
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/blog/vue/emitter/vue组件之间的多种通信方式.html" class="nav-link">vue</a></div><div class="nav-item"><a href="/blog/react/手写一个react路由.html" class="nav-link">react</a></div> <a href="https://github.com/huqc2513" target="_blank" rel="noopener noreferrer" class="repo-link">
+    github
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><div class="sidebar-group first collapsable"><p class="sidebar-heading"><span>react</span> <span class="arrow right"></span></p> <!----></div></li><li><div class="sidebar-group collapsable"><p class="sidebar-heading"><span>webpack</span> <span class="arrow right"></span></p> <!----></div></li><li><div class="sidebar-group collapsable"><p class="sidebar-heading open"><span>node</span> <span class="arrow down"></span></p> <ul class="sidebar-group-items"><li><a href="/blog/node/express/" class="sidebar-link">express简易实现</a></li><li><a href="/blog/node/http/" class="sidebar-link">http协议缓存策略</a></li><li><a href="/blog/node/fs/" class="sidebar-link">fs实现递归删除</a></li><li><a href="/blog/node/require/" class="active sidebar-link">浅析 commonjs 中的模块化</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/blog/node/require/#module-exports-和-exports" class="sidebar-link">module.exports 和 exports</a></li><li class="sidebar-sub-header"><a href="/blog/node/require/#剖析模块执行原理" class="sidebar-link">剖析模块执行原理</a></li><li class="sidebar-sub-header"><a href="/blog/node/require/#require-方法的简单实现" class="sidebar-link">require 方法的简单实现</a></li></ul></li></ul></div></li><li><div class="sidebar-group collapsable"><p class="sidebar-heading"><span>vue</span> <span class="arrow right"></span></p> <!----></div></li><li><div class="sidebar-group collapsable"><p class="sidebar-heading"><span>javascript</span> <span class="arrow right"></span></p> <!----></div></li></ul> </div> <div class="page"> <div class="content"><h1 id="浅析-commonjs-中的模块化"><a href="#浅析-commonjs-中的模块化" class="header-anchor">#</a> 浅析 commonjs 中的模块化</h1> <h2 id="module-exports-和-exports"><a href="#module-exports-和-exports" class="header-anchor">#</a> module.exports 和 exports</h2> <p>在 nodejs 模块化中，使用 <code>exports</code> 或<code>module.exports</code> 都能够向外部模块导出对象</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">//a.js</span>
+exports<span class="token punctuation">.</span>a <span class="token operator">=</span> <span class="token punctuation">{</span>
+  a<span class="token punctuation">:</span> <span class="token number">1</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports<span class="token punctuation">.</span>b <span class="token operator">=</span> <span class="token punctuation">{</span>
+  b<span class="token punctuation">:</span> <span class="token number">1</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 改写exports的内存指向,会导致exports的导出失效</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  b<span class="token punctuation">:</span> <span class="token number">1</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 输入  {b:1}</span>
+</code></pre></div><p>打印 <code>console.log(a)</code>可以看出 module 和 exports 其实是指向同一块内存地址
+当直接给 <code>module.exports</code> 或 <code>exports</code> 赋值时，就相当于改变了内存，两者指代的就不是同一内存，这样就会导致<code>exports</code> 中的内容失效</p> <br> <br> <br> <h2 id="剖析模块执行原理"><a href="#剖析模块执行原理" class="header-anchor">#</a> 剖析模块执行原理</h2> <p>实际上 nodejs 底层对于模块化的实现是借助了 eval 于 fs 模块来实现,将文件内容包裹在一个函数内，函数执行时传入的 exports 只是 module.exports 的引用地址
+<br> <br></p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">var</span> <span class="token function-variable function">runStr</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">str</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">exports<span class="token punctuation">,</span> module<span class="token punctuation">,</span> req<span class="token punctuation">,</span> __filename<span class="token punctuation">,</span> __dirname</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> cont <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">
+          (function(exports, module, require, __filename, __dirname){
+              </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>str<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">
+              return module.exports
+          })(exports, module, require, __filename, __dirname)
+        </span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token function">eval</span><span class="token punctuation">(</span>cont<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> str <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">
+    let a= ' 我是a模块'
+    exports.a = 1
+    module.exports.b=3
+  </span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+
+<span class="token keyword">let</span> Module <span class="token operator">=</span> <span class="token punctuation">{</span>
+  id<span class="token punctuation">:</span> <span class="token string">&quot;a.js&quot;</span><span class="token punctuation">,</span>
+  exports<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">let</span> content <span class="token operator">=</span> <span class="token function">runStr</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">(</span>Module<span class="token punctuation">.</span>exports<span class="token punctuation">,</span> Module<span class="token punctuation">,</span> require<span class="token punctuation">,</span> <span class="token string">&quot;&quot;</span><span class="token punctuation">,</span> Module<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//{a:2,b:3}</span>
+</code></pre></div><h2 id="require-方法的简单实现"><a href="#require-方法的简单实现" class="header-anchor">#</a> require 方法的简单实现</h2> <p>实现原理是利用 fs 获取到模块内容字符串,然后使用 eval 函数将字符串函数执行</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">let</span> path <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;path&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> vm <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;vm&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">&quot;fs&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">req</span><span class="token punctuation">(</span><span class="token parameter">filename</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> absPath <span class="token operator">=</span> path<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>__dirname<span class="token punctuation">,</span> filename<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">let</span> extnames <span class="token operator">=</span> Object<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span>Module<span class="token punctuation">.</span>_extensions<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">let</span> old <span class="token operator">=</span> absPath<span class="token punctuation">;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>Module<span class="token punctuation">.</span>_cache<span class="token punctuation">[</span>absPath<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> Module<span class="token punctuation">.</span>_cache<span class="token punctuation">[</span>absPath<span class="token punctuation">]</span><span class="token punctuation">.</span>exports<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">let</span> index <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+  <span class="token comment">//运用到一个小递归来匹配 req 方法不传入文件后缀名的兼容方法</span>
+  <span class="token keyword">function</span> <span class="token function">find</span><span class="token punctuation">(</span><span class="token parameter">filename</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>index <span class="token operator">===</span> extnames<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> filename<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">try</span> <span class="token punctuation">{</span>
+      fs<span class="token punctuation">.</span><span class="token function">accessSync</span><span class="token punctuation">(</span>filename<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">return</span> filename<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token function">find</span><span class="token punctuation">(</span>old <span class="token operator">+</span> extnames<span class="token punctuation">[</span>index<span class="token operator">++</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+  absPath <span class="token operator">=</span> <span class="token function">find</span><span class="token punctuation">(</span>absPath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">try</span> <span class="token punctuation">{</span>
+    fs<span class="token punctuation">.</span><span class="token function">readFileSync</span><span class="token punctuation">(</span>absPath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span><span class="token string">&quot;文件不存在&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">let</span> module <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Module</span><span class="token punctuation">(</span>absPath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  Module<span class="token punctuation">.</span>_cache<span class="token punctuation">[</span>module<span class="token punctuation">.</span>id<span class="token punctuation">]</span> <span class="token operator">=</span> module<span class="token punctuation">;</span>
+  <span class="token function">tryModuleLoad</span><span class="token punctuation">(</span>module<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> module<span class="token punctuation">.</span>exports<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">Module</span><span class="token punctuation">(</span><span class="token parameter">pathname</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>id <span class="token operator">=</span> pathname<span class="token punctuation">;</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">tryModuleLoad</span><span class="token punctuation">(</span><span class="token parameter">module</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> extname <span class="token operator">=</span> path<span class="token punctuation">.</span><span class="token function">extname</span><span class="token punctuation">(</span>module<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  Module<span class="token punctuation">.</span>_extensions<span class="token punctuation">[</span>extname<span class="token punctuation">]</span><span class="token punctuation">(</span>module<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+Module<span class="token punctuation">.</span>_cache <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+Module<span class="token punctuation">.</span>wrap <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token string">&quot;(function(exports, module, require, __filename, __dirname){&quot;</span><span class="token punctuation">,</span>
+  <span class="token string">&quot;})&quot;</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+Module<span class="token punctuation">.</span>_extensions <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token string">&quot;.js&quot;</span><span class="token punctuation">(</span>module<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> content <span class="token operator">=</span> fs<span class="token punctuation">.</span><span class="token function">readFileSync</span><span class="token punctuation">(</span>module<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">let</span> fnStr <span class="token operator">=</span> Module<span class="token punctuation">.</span>wrap<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+</span> content <span class="token operator">+</span> Module<span class="token punctuation">.</span>wrap<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">let</span> fn <span class="token operator">=</span> vm<span class="token punctuation">.</span><span class="token function">runInThisContext</span><span class="token punctuation">(</span>fnStr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">fn</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>module<span class="token punctuation">.</span>exports<span class="token punctuation">,</span> module<span class="token punctuation">.</span>exports<span class="token punctuation">,</span> module<span class="token punctuation">,</span> req<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token string">&quot;.json&quot;</span><span class="token punctuation">(</span>module<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> content <span class="token operator">=</span> fs<span class="token punctuation">.</span><span class="token function">readFileSync</span><span class="token punctuation">(</span>module<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">let</span> a <span class="token operator">=</span> <span class="token function">req</span><span class="token punctuation">(</span><span class="token string">&quot;./a&quot;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div></div> <div class="page-edit"><!----> <!----></div> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/blog/node/fs/" class="prev">
+          fs实现递归删除
+        </a></span> <span class="next"><a href="/blog/vue/vue组件之间的多种通信方式.html">
+          vue组件的多种通信方式
+        </a>
+        →
+      </span></p></div> </div> <!----></div></div>
+    <script src="/blog/assets/js/app.c212e84a.js" defer></script><script src="/blog/assets/js/16.0e225785.js" defer></script>
+  </body>
+</html>
